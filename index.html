@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Click Duration Timer</title>
+    <style>
+      body {
+        max-width: 600px;
+        margin: 1rem auto;
+        text-align: center;
+        /* prettier-ignore */
+        font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
+      }
+      button {
+        padding: 1rem;
+        font-size: 1rem;
+        cursor: pointer;
+        width: 100px;
+        height: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <p>
+      inspired by
+      <a href="https://twitter.com/ID_AA_Carmack/status/1787850053912064005"
+        >John Carmack's tweet</a
+      >
+    </p>
+    <button>click me</button>
+    <p id="pointerdowns"></p>
+    <p id="pointerups"></p>
+    <script>
+      let pointerdowns = 0;
+      let pointerups = 0;
+      let startTime = 0;
+      document.querySelector("button").addEventListener("pointerdown", (e) => {
+        startTime = e.timeStamp;
+        document.querySelector("#pointerdowns").textContent =
+          `${++pointerdowns} down`;
+        document.querySelector("button").innerText = "holding";
+        document
+          .querySelector("#pointerdowns")
+          .animate([{ transform: "scale(1.2)" }, { transform: "scale(1)" }], {
+            duration: 300,
+            easing: "ease-in-out",
+            iterations: 1,
+          });
+      });
+      document.querySelector("button").addEventListener("pointerup", (e) => {
+        document.querySelector("button").textContent =
+          `held for ${Math.round(e.timeStamp - startTime)} ms`;
+        document.querySelector("#pointerups").textContent =
+          `${++pointerups} up`;
+        document
+          .querySelector("#pointerups")
+          .animate([{ transform: "scale(1.2)" }, { transform: "scale(1)" }], {
+            duration: 300,
+            easing: "ease-in-out",
+            iterations: 1,
+          });
+      });
+    </script>
+  </body>
+</html>
